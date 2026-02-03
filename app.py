@@ -8,9 +8,10 @@ st.set_page_config(page_title="Contract Analysis Bot")
 st.title("📄 Contract Analysis Bot")
 
 uploaded_file = st.file_uploader(
-    "Upload contract (PDF or DOCX)",
-    type=["pdf", "docx"]
+    "Upload contract (PDF, DOCX, or TXT)",
+    type=["pdf", "docx", "txt"]
 )
+
 
 def extract_text(file):
     if file.name.endswith(".pdf"):
@@ -23,6 +24,8 @@ def extract_text(file):
     elif file.name.endswith(".docx"):
         doc = Document(file)
         return "\n".join(p.text for p in doc.paragraphs)
+    elif file.name.endswith(".txt"):
+        return file.read().decode("utf-8")
 
 if uploaded_file:
     contract_text = extract_text(uploaded_file)
